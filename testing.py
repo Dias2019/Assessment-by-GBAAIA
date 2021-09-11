@@ -1,0 +1,1 @@
+print("Adeliya laptop's first hello world!")
