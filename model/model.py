@@ -3,11 +3,6 @@ import torch.nn as nn
 
 
 
-def conv3x3(in_planes, out_planes, padding, stride=1):
-    """3x3 convolution with padding"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=3,
-                     stride=stride, padding=padding, bias=False)
-
 
 class First_Model(nn.Module):
 
@@ -34,8 +29,8 @@ class First_Model(nn.Module):
 
         self.dropout = nn.Dropout()    # by default PyTorch's dropout ratio is 0.5
         
-        self.fc1 = nn.Linear(in_features=4 * 4 * 128, out_features=256)
-        self.fc2 = nn.Linear(in_features=256, out_features=128)
+        self.fc1 = nn.Linear(in_features=256, out_features=128)
+        self.fc2 = nn.Linear(in_features=128, out_features=7)
 
         self.softmax = nn.Softmax(dim=0)
     
@@ -62,9 +57,33 @@ class First_Model(nn.Module):
 
 class Second_Model(nn.Module):
 
-    def __init__(self) -> None:
-        super().__init__()
-        self.conv_1 = conv3x3() 
+    def __init__(self):
+        super(Second_Model, self).__init__()
+
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(in_planes=1, out_planes=64, kernel_size=3, stride=1, padding='same', bias=False),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=64),
+            nn.MaxPool2d(kernel_size=2, stride=2, padding=0))
+
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(in_planes=6, out_planes=16, kernel_size=3, stride=1, padding=0, bias=False),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=16),
+            nn.MaxPool2d(kernel_size=2, stride=2, padding=0))
+
+        self.layer3 = nn.Sequential(
+            nn.Conv2d(in_planes=16, out_planes=128, kernel_size=3, stride=1, padding=0, bias=False),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=128),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=0))
+
+        self.dropout = nn.Dropout()    # by default PyTorch's dropout ratio is 0.5
+        
+        self.fc1 = nn.Linear(in_features=4 * 4 * 128, out_features=256)
+        self.fc2 = nn.Linear(in_features=256, out_features=128)
+
+        self.softmax = nn.Softmax(dim=0)
 
     def forward():
 
