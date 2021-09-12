@@ -10,4 +10,4 @@ You could find an original paper via [this link](https://ieeexplore.ieee.org/doc
 ---
 
 - *model* script provides reimplementation of both models mentioned in the paper. 
-- data script gives data preprocessing and augmentation techniques used by the paper's authors.
+- *data* script gives data preprocessing and augmentation techniques used by the paper's authors.
