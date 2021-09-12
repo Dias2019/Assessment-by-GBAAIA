@@ -109,12 +109,15 @@ class Data_Aug_second_model:
 
 # our personally defined function for cropping:
 def face_crop(image, face_coordinates):
+    
+    # face coordinates should be obtained from another model (probably face recognition model)
+    # and used here as argument
     x, y = face_coordinates
     x1, x2 = x; y1, y2 = y
     return image[x1:x2, y1:y2]
 
 # Data processing of the first model consist from Image Cropping, Image Normalization, Down-Sampling
-Data_Processing_first_model = transforms.Compose([
+Data_Processing = transforms.Compose([
     
     # built-in Lambda function helps to utilize and compose functions defined by ourselves
     transforms.Lambda(face_crop(img=img, face_coordinates=coordinates)),
