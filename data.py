@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 
 
 # Data Augmentation in the First Model:
-# These class is run only once to augment and save rotated images into dataset folder
+# This class is run only once to augment and save rotated images into dataset folder
 
 class Data_Aug_first_model:
 
@@ -54,6 +54,50 @@ class Data_Aug_first_model:
         
         else:
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.file_location)
+
+
+
+
+# Data Augmentation in the Second Model:
+# This class is run only once to augment and save rotated images into dataset folder
+
+class Data_Aug_second_model:
+
+    # In the second model, researchers used FER2013 dataset which has imbalance of data in "disgust" emotion
+    # Therefore, we are going to input "disgust" emotion's folder location
+
+    def __init__(self, input_file):
+
+        # let's assume that input_file is something like this: "C:/Users/Admin/Facial_emotions_dataset/FER2013/disgust"
+        self.file_location = input_file
+
+
+    def image_rotation(self):
+
+        # FER2013 dataset
+        # for example with JAFFE, we rotate within 5 degrees at a step of 0.5 degrees
+        # therefore, we ended up acquiring 10 times more images
+
+        # to make sure that we are working with "disgust" emotion
+        if str(self.file_location).split("/")[-1] == "disgust":
+
+            for filename in os.listdir(self.file_location):
+                if filename.endswith(".jpg"): 
+                    path = os.path.join(self.file_location, filename)
+                    original_image = Image.open(path)
+                    for angle in range(0, 5, 0.5):
+
+                        # this is a PIL function for rotation which accepts angle (in degrees) as input
+                        # it uses inverse mapping or reverse transformation via transformation matrix for affine transformation
+                        rotated_image = original_image.rotate(angle)
+                        rotated_image_name = str(filename).split(".")[0] + "_" + str(angle) + ".jpg"
+                        rotated_image.save(rotated_image_name)
+        
+        else:
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.file_location)
+
+
+
 
 
 
